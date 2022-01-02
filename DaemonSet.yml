@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: virtual-device-plugin
+  namespace: project-system
+  labels:
+    virtual.device: virtual-device-plugin
+spec:
+  selector:
+    matchLabels:
+      virtual.device: virtual-device-plugin
+  template:
+    metadata:
+      labels:
+        virtual.device: virtual-device-plugin
+    spec:
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+      containers:
+        - name: virtual-device-plugin
+          image: "cjh9004/virtual-device-plugin:latest"
+          volumeMounts:
+            - name: device-plugin
+              mountPath: /var/lib/kubelet/device-plugins
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
+      restartPolicy: Always

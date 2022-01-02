@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: virtual-device-plugin-example
+  namespace: project-system
+  labels:
+    virtual.device: virtual-device-plugin-example
+spec:
+  selector:
+    matchLabels:
+      virtual.device: virtual-device-plugin-example
+  template:
+    metadata:
+      labels:
+        virtual.device: virtual-device-plugin-example
+    spec:
+      containers:
+        - name: virtual-device-plugin-example
+          image: cjh9004/virtual-device-plugin-example:latest
+          resources:
+            limits:
+              device.plugin/device: "1"
+            requests:
+              device.plugin/device: "1"
